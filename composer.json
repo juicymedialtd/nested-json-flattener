@@ -1,27 +1,39 @@
 {
-    "name": "tonirilix/nested-json-flattener",
-    "description": "A php package to flatten nested json objects and nested arrays. It also allows you to create csv files from the flattened data.",
-    "keywords": ["json", "nested json", "Flatten nested json", "json flattener", "convert json to csv", "csv", "csv writer"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "tonirilix",
-            "email": "jesusmontes.mx@hotmail.com"
-        }
-    ],
-    "autoload": {
-        "psr-4": {
-            "NestedJsonFlattener\\": "src/"
-        }
-    },    
-    "scripts": {        
-        "test": "./vendor/bin/phpunit --configuration ./phpunit.xml.dist"
+  "name": "juicymedialtd/nested-json-flattener",
+  "description": "A php package to flatten nested json objects and nested arrays. It also allows you to create csv files from the flattened data.",
+  "keywords": [
+    "json",
+    "nested json",
+    "Flatten nested json",
+    "json flattener",
+    "convert json to csv",
+    "csv",
+    "csv writer"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "danielhart",
+      "email": "daniel.hart@juicymedia.co.uk"
     },
-    "require": {
-        "peekmo/jsonpath": "dev-master"
-    },
-    "prefer-stable": true,
-    "require-dev": {
-        "phpunit/phpunit": "^6.5"
+    {
+      "name": "tonirilix",
+      "email": "jesusmontes.mx@hotmail.com"
     }
+  ],
+  "autoload": {
+    "psr-4": {
+      "NestedJsonFlattener\\": "src/"
+    }
+  },
+  "scripts": {
+    "test": "./vendor/bin/phpunit --configuration ./phpunit.xml.dist"
+  },
+  "require": {
+    "peekmo/jsonpath": "dev-master"
+  },
+  "prefer-stable": true,
+  "require-dev": {
+    "phpunit/phpunit": "^6.5"
+  }
 }

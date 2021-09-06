@@ -4,12 +4,16 @@
 [![codecov](https://codecov.io/gh/tonirilix/nested-json-flattener/branch/master/graph/badge.svg)](https://codecov.io/gh/tonirilix/nested-json-flattener)
 [![Latest Stable Version](https://poser.pugx.org/tonirilix/nested-json-flattener/v/stable)](https://packagist.org/packages/tonirilix/nested-json-flattener) [![Total Downloads](https://poser.pugx.org/tonirilix/nested-json-flattener/downloads)](https://packagist.org/packages/tonirilix/nested-json-flattener) [![Latest Unstable Version](https://poser.pugx.org/tonirilix/nested-json-flattener/v/unstable)](https://packagist.org/packages/tonirilix/nested-json-flattener) [![License](https://poser.pugx.org/tonirilix/nested-json-flattener/license)](https://packagist.org/packages/tonirilix/nested-json-flattener)
 
-A php package to flatten nested json objects and nested arrays. It also allows you to create csv files from the flattened data.
+A php package to flatten nested json objects and nested arrays. It also allows you to create csv files from the
+flattened data.
 
 ## Features
-1. The package allows you to select a specific node of the json object or array and flat it. The selected node can be flattened whether is a object or collection.
 
-2. It takes in count the full path where a value is stored in a nested json object and uses it as header name. Let's use the example below.
+1. The package allows you to select a specific node of the json object or array and flat it. The selected node can be
+   flattened whether is a object or collection.
+
+2. It takes in count the full path where a value is stored in a nested json object and uses it as header name. Let's use
+   the example below.
 
 ```
 {
@@ -25,17 +29,19 @@ A php package to flatten nested json objects and nested arrays. It also allows y
 	}	
 }
 ```
+
 If we'd like to flat that json object and put it into a csv file, the result would be as follows:
 
 | name             | nested.type      | nested.location | nested.geo.latitude | nested.geo.longitude | nested.primitivesCollection | 
 |------------------|------------------|-----------------|---------------------|----------------------|-----------------------------| 
 | This is a name | This is a type | Earth           | 1234567890          | 0987654321           | 123, 456, 789               | 
 
-
 ## Credits
+
 It's based on [csvwriter](https://www.npmjs.com/package/csvwriter) npm package implementation.
 
 ## How to use it
+
 **If you need to flat a nested json string**
 
 ```
@@ -59,7 +65,6 @@ $flat = $flattener->getFlatData();
 print_r($flat);
 ```
 
-
 **If you need to flat a nested array**
 
 ```
@@ -82,6 +87,32 @@ $flattener->setArrayData($data);
 $flat = $flattener->getFlatData();
 print_r($flat);
 ```
+
+**If you need to set a delimiter**
+
+```
+use NestedJsonFlattener\Flattener\Flattener;
+$data = [
+	'name' => 'This is a name', 
+	'nested' => [
+		'type' => 'This is a type',
+		'location' => 'Earth',
+		'geo' => [
+			'latitude'=> '1234567890',
+			'longitude'=> '0987654321'
+		],
+		'primitivesCollection'=> [123, 456, 789]
+	]
+];
+
+$options = ['delimiter' => '|'];
+
+$flattener = new Flattener($options);
+$flattener->setArrayData($data);
+$flat = $flattener->getFlatData();
+print_r($flat);
+```
+
 **If you need to select a specific path to be flattened**
 
 Read [JsonPath](http://goessner.net/articles/JsonPath/) documentation from Stefan Goessner to learn how to create paths.
@@ -130,7 +161,12 @@ $flattener->setArrayData($data);
 $flattener->writeCsv();
 
 ```
+
 ## TODO
-1. The package still needs to get configurations from params. [See milestone](https://github.com/tonirilix/nested-json-flattener/milestones/Configuration%20Options)
-2. Some of the params in mind are: whether take primitives arrays as one element or not (taken as one element by default)
-3. Add a way to create a configuration to tell the class how to handle internal collections. [See milestone](https://github.com/tonirilix/nested-json-flattener/milestones/Internal%20collections%20handler)
+
+1. The package still needs to get configurations from
+   params. [See milestone](https://github.com/tonirilix/nested-json-flattener/milestones/Configuration%20Options)
+2. Some of the params in mind are: whether take primitives arrays as one element or not (taken as one element by
+   default)
+3. Add a way to create a configuration to tell the class how to handle internal
+   collections. [See milestone](https://github.com/tonirilix/nested-json-flattener/milestones/Internal%20collections%20handler)

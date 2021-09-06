@@ -31,12 +31,18 @@ namespace NestedJsonFlattener\Flattener;
  *
  * @author tonirilix
  */
-class Flattener extends FlattenerBase {
+class Flattener extends FlattenerBase
+{
+
+    private $delimiter = '.';
 
     /**
      * A simple constructor
      */
-    public function __construct($options = []) {
+    public function __construct($options = [])
+    {
+        $this->delimiter = $options['delimiter'];
+
         parent::__construct($options);
     }
 
@@ -44,7 +50,8 @@ class Flattener extends FlattenerBase {
      * Resturns a flatted array
      * @return array
      */
-    public function getFlatData() {
+    public function getFlatData()
+    {
 
         $result = [];
 
@@ -55,7 +62,7 @@ class Flattener extends FlattenerBase {
             $this->setData($data0);
         }
 
-        // Loops the array 
+        // Loops the array
         foreach ($this->getData() as $data) {
             // Flats passed array of data
             $result[] = $this->flatten($data, []);
@@ -69,7 +76,8 @@ class Flattener extends FlattenerBase {
      * Writes a csv file with the passed data
      * @param string $name the name of the file. Default: "file_" . rand()
      */
-    public function writeCsv($name = '') {
+    public function writeCsv($name = '')
+    {
         $fileName = !empty($name) ? $name : "file_" . rand();
         // Setting data
         $dataFlattened = $this->getFlatData();
@@ -80,19 +88,20 @@ class Flattener extends FlattenerBase {
     /**
      * Flats a nested array
      * @param array $data Array with data to be flattened
-     * @param array $path Options param, it's used by the recursive method to set the full key name     
+     * @param array $path Options param, it's used by the recursive method to set the full key name
      * @return array Flattened array
      */
-    private function flatten($data, array $path = array()) {
-        
+    private function flatten($data, array $path = array())
+    {
+
         /**
          * If maxDepth is reached just return an empty array
          */
-        if ($this->validateMaxDepth($path)) {            
+        if ($this->validateMaxDepth($path)) {
             return array();
         }
 
-        // Check if the data is an object        
+        // Check if the data is an object
         if (is_object($data)) {
 
             $flatObject = $this->flatObject($data, $path);
@@ -110,7 +119,8 @@ class Flattener extends FlattenerBase {
         return $flatValue;
     }
 
-    private function flatObject($data, array $path = array()) {
+    private function flatObject($data, array $path = array())
+    {
 
 
         $dataModified = get_object_vars($data);
@@ -119,28 +129,28 @@ class Flattener extends FlattenerBase {
         return $flatArrayHelper;
     }
 
-    private function flatArray($data, array $path = array()) {
+    private function flatArray($data, array $path = array())
+    {
         $onlyPrimitives = TRUE;
 
-        foreach($data as $item) {
-            if(is_object($item) || is_array($item)) {
+        foreach ($data as $item) {
+            if (is_object($item) || is_array($item)) {
                 $onlyPrimitives = FALSE;
                 break;
             }
         }
 
-        if($onlyPrimitives && count($data) > 0) {
+        if ($onlyPrimitives && count($data) > 0) {
             $flatPrimitives = $this->flatten(join(",", $data), $path);
             return $flatPrimitives;
-        }
-
-        else {
+        } else {
             $flatArrayHelper = $this->flatArrayHelper($data, $path);
             return $flatArrayHelper;
         }
     }
 
-    private function flatArrayHelper($data, $path) {
+    private function flatArrayHelper($data, $path)
+    {
         $result = array();
 
         foreach ($data as $key => $value) {
@@ -152,10 +162,11 @@ class Flattener extends FlattenerBase {
         return $result;
     }
 
-    private function addValue($data, array $path = array()) {
+    private function addValue($data, array $path = array())
+    {
         $result = array();
 
-        $pathName = join('.', $path);
+        $pathName = join($this->delimiter, $path);
         $result[$pathName] = $data;
 
         return $result;
